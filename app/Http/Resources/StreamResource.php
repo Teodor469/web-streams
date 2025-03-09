@@ -20,7 +20,7 @@ class StreamResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description ?? null,
             'tokens_price' => $this->tokens_price,
-            'type' => $this->type ?? null,
+            'type_id' => $this->type ?? null,
             'date_expiration' => $this->date_expiration,
         ];
         
