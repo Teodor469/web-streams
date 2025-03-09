@@ -6,11 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateStreamTypesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+
     public function up()
     {
         Schema::create('stream_types', function (Blueprint $table) {
@@ -19,11 +15,6 @@ class CreateStreamTypesTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('stream_types');
