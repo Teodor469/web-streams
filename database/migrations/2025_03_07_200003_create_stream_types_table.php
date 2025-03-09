@@ -15,7 +15,7 @@ class CreateStreamTypesTable extends Migration
     {
         Schema::create('stream_types', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('name', 255);
         });
     }
 

@@ -15,6 +15,11 @@ class CreateStreamsTable extends Migration
     {
         Schema::create('streams', function (Blueprint $table) {
             $table->id();
+            $table->string('title', 255);
+            $table->string('description', 655)->nullable();
+            $table->integer('tokens_price');
+            $table->dateTime('date_expiration');
+            $table->foreignId('type_id')->nullable()->constrained('stream_types')->onDelete('cascade');
             $table->timestamps();
         });
     }
