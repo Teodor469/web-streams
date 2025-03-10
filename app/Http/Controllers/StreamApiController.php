@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\StreamResource;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Stream;
 use Illuminate\Support\Facades\Validator;
@@ -11,10 +10,22 @@ use Illuminate\Validation\Rule;
 
 class StreamApiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $stream = Stream::paginate(10);
-        return StreamResource::collection($stream);
+
+        $query = Stream::query();
+
+        if ($request->has('type_name')) {
+            $query->whereHas('type', function ($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . $request->type_name . '%');
+            });
+        }
+
+        $query->orderBy('type_id', 'asc');
+
+        $streams = $query->paginate(5);
+
+        return StreamResource::collection($streams);
     }
 
 
@@ -46,18 +57,6 @@ class StreamApiController extends Controller
             'message' => 'Stream created successfully',
             'data' => new StreamResource($stream),
         ], 201);
-    }
-
-
-    public function show($id)
-    {
-        $stream = Stream::find($id);
-
-        if (!$stream) {
-            return response()->json(['message' => 'stream not found'], 404);
-        }
-
-        return new StreamResource($stream);
     }
 
 
