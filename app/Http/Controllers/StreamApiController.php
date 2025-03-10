@@ -12,15 +12,15 @@ class StreamApiController extends Controller
 {
     public function index()
     {
-        $stream = Stream::get();
+        $stream = Stream::paginate(10);
         return StreamResource::collection($stream);
     }
 
 
-    public function store(Request $request): JsonResponse
+    public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:255|unique:streams,title',
             'description' => 'nullable|string|max:655',
             'tokens_price' => 'required|integer',
             'type_id' => 'nullable|exists:stream_types,id',
@@ -64,7 +64,7 @@ class StreamApiController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:255|unique:streams,title',
             'description' => 'nullable|string|max:655',
             'tokens_price' => 'required|integer',
             'type_id' => 'nullable|exists:stream_types,id',
@@ -90,7 +90,7 @@ class StreamApiController extends Controller
         return response()->json([
             'message' => 'Web stream updated successfully',
             'date' => new StreamResource($stream),
-        ], 201);
+        ], 200);
     }
 
 

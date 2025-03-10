@@ -18,6 +18,6 @@ class StreamResource extends JsonResource
             'type_id' => $this->type ?? null,
             'date_expiration' => $this->date_expiration,
         ];
-        
+
     }
 }
