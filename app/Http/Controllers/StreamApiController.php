@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Stream;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class StreamApiController extends Controller
 {
@@ -42,10 +43,9 @@ class StreamApiController extends Controller
         ]);
 
         return response()->json([
-            'message'=> 'Stream created successfully',
+            'message' => 'Stream created successfully',
             'data' => new StreamResource($stream),
         ], 201);
-
     }
 
 
@@ -54,7 +54,7 @@ class StreamApiController extends Controller
         $stream = Stream::find($id);
 
         if (!$stream) {
-            return response()->json(['message'=> 'stream not found'], 404);
+            return response()->json(['message' => 'stream not found'], 404);
         }
 
         return new StreamResource($stream);
@@ -64,7 +64,12 @@ class StreamApiController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'title' => 'required|string|max:255|unique:streams,title',
+            'title' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('streams')->ignore($id)
+            ],
             'description' => 'nullable|string|max:655',
             'tokens_price' => 'required|integer',
             'type_id' => 'nullable|exists:stream_types,id',
@@ -89,7 +94,7 @@ class StreamApiController extends Controller
 
         return response()->json([
             'message' => 'Web stream updated successfully',
-            'date' => new StreamResource($stream),
+            'data' => new StreamResource($stream),
         ], 200);
     }
 
