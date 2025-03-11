@@ -10,6 +10,7 @@ class Stream extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'title',
         'description',
         'tokens_price',
@@ -20,5 +21,10 @@ class Stream extends Model
     public function type()
     {
         return $this->belongsTo(StreamType::class, 'type_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

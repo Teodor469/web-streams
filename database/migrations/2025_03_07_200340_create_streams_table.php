@@ -11,6 +11,7 @@ class CreateStreamsTable extends Migration
     {
         Schema::create('streams', function (Blueprint $table) {
             $table->id();
+            $table->foreignID('user_id')->constrained()->onDelete('cascade');
             $table->string('title', 255);
             $table->string('description', 655)->nullable();
             $table->integer('tokens_price');

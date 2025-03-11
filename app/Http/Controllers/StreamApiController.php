@@ -45,13 +45,15 @@ class StreamApiController extends Controller
             ], 422);
         }
 
-        $stream = Stream::create([
+        $stream = Stream::create(array_merge([
             'title' => $request->title,
             'description' => $request->description,
             'tokens_price' => $request->tokens_price,
             'type_id' => $request->type_id,
             'date_expiration' => $request->date_expiration,
-        ]);
+        ], [
+            'user_id' => auth()->id()
+        ]));
 
         return response()->json([
             'message' => 'Stream created successfully',
@@ -83,6 +85,12 @@ class StreamApiController extends Controller
 
         $stream = Stream::find($id);
 
+        if ($stream->user_id !== auth()->id()) {
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 403);
+        }
+
         $stream->update([
             'title' => $request->title,
             'description' => $request->description,
@@ -106,6 +114,12 @@ class StreamApiController extends Controller
             return response()->json([
                 'message' => 'Stream does not exist'
             ], 404);
+        }
+
+        if ($stream->user_id !== auth()->id()) {
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 403);
         }
 
         $stream->delete();

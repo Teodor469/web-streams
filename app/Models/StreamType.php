@@ -9,6 +9,8 @@ class StreamType extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     public function streams()
     {
         return $this->hasMany(Stream::class);
