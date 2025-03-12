@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\StreamType;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class StreamFactory extends Factory
 {
@@ -15,6 +16,7 @@ class StreamFactory extends Factory
     public function definition()
     {
         return [
+            'user_id' => User::factory(),
             'title' => $this->faker->sentence(),
             'description' => $this->faker->paragraph(),
             'tokens_price' => $this->faker->numberBetween(50, 1000),

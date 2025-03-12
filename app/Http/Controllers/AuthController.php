@@ -86,7 +86,7 @@ class AuthController extends Controller
         };
 
         return response()->json([
-            'message' => 'User not found!'
-        ], 404);
+            'message' => 'Unauthenticated.'
+        ], 401);
     }
 }
