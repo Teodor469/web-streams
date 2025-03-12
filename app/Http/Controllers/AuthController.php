@@ -33,7 +33,6 @@ class AuthController extends Controller
             ]);
 
             $token = $user->createToken('auth_token')->plainTextToken;
-            event(new Registered($user));
 
             return response()->json([
                 'message' => 'Account created successfully',

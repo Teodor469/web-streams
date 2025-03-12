@@ -87,6 +87,15 @@ class StreamApiTest extends TestCase
             ]);
     }
 
+    public function test_if_non_authenticated_user_can_create_stream()
+    {
+        $data = $this->createStreamData();
+
+        $response = $this->postJson('/api/streams', $data);
+
+        $response->assertStatus(401);
+    }
+
     public function test_if_user_can_update_their_own_stream()
     {
         $user = User::factory()->create();
@@ -104,7 +113,7 @@ class StreamApiTest extends TestCase
 
         $response = $this->putJson("/api/streams/{$stream->id}", $updatedData);
 
-        $response->assertStatus(200)
+        $response->assertStatus(201)
             ->assertJson([
                 'message' => 'Web stream updated successfully',
                 'data' => [

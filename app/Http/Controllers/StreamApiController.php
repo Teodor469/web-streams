@@ -15,6 +15,14 @@ class StreamApiController extends Controller
 
         $query = Stream::query();
 
+        if ($request->has('title')) {
+            $query->where('title', 'LIKE', '%' . $request->title . '%');
+        }
+
+        if ($request->has('description')) {
+            $query->where('description', 'LIKE', '%' . $request->description . '%');
+        }
+
         if ($request->has('type_name')) {
             $query->whereHas('type', function ($q) use ($request) {
                 $q->where('name', 'LIKE', '%' . $request->type_name . '%');
@@ -102,7 +110,7 @@ class StreamApiController extends Controller
         return response()->json([
             'message' => 'Web stream updated successfully',
             'data' => new StreamResource($stream),
-        ], 200);
+        ], 201);
     }
 
 
