@@ -1,9 +1,7 @@
 Project: Web Streams API
 This project is a RESTful API for managing video streams, built using Laravel 8 with Sanctum authentication. It provides full CRUD functionality, user authentication, and an automated command for cleaning up expired streams.
-🔹 Key Features & Implementation
+Key Features & Implementation
 Authentication (AuthController)
-
-
 Implemented user registration, login, and logout with Laravel Sanctum.
 Enforced ownership restrictions on streams.
 Feature tests cover authentication scenarios.
@@ -18,7 +16,6 @@ Middleware & Security
 
 Custom Authenticate Middleware: Returns JSON response instead of redirecting when unauthenticated.
 Route Protection: Applied auth:sanctum middleware where necessary.
-Automated Expired Streams Cleanup
 
 
 Custom Artisan Command (streams:delete-expired) deletes expired streams.
