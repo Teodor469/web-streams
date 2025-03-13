@@ -25,25 +25,19 @@ class AuthController extends Controller
             ], 422);
         }
 
-        try {
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-            ]);
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
 
-            $token = $user->createToken('auth_token')->plainTextToken;
+        $token = $user->createToken('auth_token')->plainTextToken;
 
-            return response()->json([
-                'message' => 'Account created successfully',
-                'auth_token' => $token,
-                'user' => $user,
-            ], 201);
-        } catch (\Exception $exception) {
-            return response()->json([
-                'error' => $exception->getMessage(),
-            ], 403);
-        }
+        return response()->json([
+            'message' => 'Account created successfully',
+            'auth_token' => $token,
+            'user' => $user,
+        ], 201);
     }
 
     public function login(Request $request)

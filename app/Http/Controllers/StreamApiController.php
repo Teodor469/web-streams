@@ -42,7 +42,7 @@ class StreamApiController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255|unique:streams,title',
             'description' => 'nullable|string|max:655',
-            'tokens_price' => 'required|integer',
+            'tokens_price' => 'required|integer|min:0',
             'type_id' => 'nullable|exists:stream_types,id',
             'date_expiration' => 'required|date_format:Y-m-d H:i:s|after_or_equal:now',
         ]);
@@ -80,7 +80,7 @@ class StreamApiController extends Controller
                 Rule::unique('streams')->ignore($id)
             ],
             'description' => 'nullable|string|max:655',
-            'tokens_price' => 'required|integer',
+            'tokens_price' => 'required|integer|min:0',
             'type_id' => 'nullable|exists:stream_types,id',
             'date_expiration' => 'required|date_format:Y-m-d H:i:s|after_or_equal:now',
         ]);
