@@ -74,15 +74,15 @@ class StreamApiController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'title' => [
-                'required',
+                'sometimes',
                 'string',
                 'max:255',
                 Rule::unique('streams')->ignore($id)
             ],
             'description' => 'nullable|string|max:655',
-            'tokens_price' => 'required|integer|min:0',
+            'tokens_price' => 'sometimes|integer|min:0',
             'type_id' => 'nullable|exists:stream_types,id',
-            'date_expiration' => 'required|date_format:Y-m-d H:i:s|after_or_equal:now',
+            'date_expiration' => 'sometimes|date_format:Y-m-d H:i:s|after_or_equal:now',
         ]);
 
         if ($validator->fails()) {
@@ -99,13 +99,13 @@ class StreamApiController extends Controller
             ], 403);
         }
 
-        $stream->update([
-            'title' => $request->title,
-            'description' => $request->description,
-            'tokens_price' => $request->tokens_price,
-            'type_id' => $request->type_id,
-            'date_expiration' => $request->date_expiration,
-        ]);
+        $stream->update($request->only([
+            'title',
+            'description',
+            'tokens_price',
+            'type_id',
+            'date_expiration'
+        ]));
 
         return response()->json([
             'message' => 'Web stream updated successfully',
